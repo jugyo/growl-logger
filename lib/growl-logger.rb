@@ -3,14 +3,13 @@ require 'rubygems'
 require 'logger'
 
 class GrowlLogger < Logger
-  def initialize(args, &block)
-    super(GrowlLogger::IO.new(args[:name] || 'growl-logger', &block))
+  def initialize(args)
+    super(GrowlLogger::IO.new(args[:name] || 'growl-logger'))
     self.level = args[:level] || Logger::WARN
     self.datetime_format = args[:datetime_format] || '%X'
-    self.formatter = block || 
-      lambda do |severity, time, progname, message|
-        "#{severity}: #{message}"
-      end
+    self.formatter = lambda do |severity, time, progname, message|
+      "#{severity}: #{message}"
+    end
   end
 
   class IO

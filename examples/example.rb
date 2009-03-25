@@ -2,7 +2,7 @@
 
 require File.dirname(__FILE__) + '/../lib/growl-logger'
 
-log = GrowlLogger.new :level => Logger::DEBUG
+log = GrowlLogger.new :level => Logger::DEBUG, :growlnotify => true
 
 log.debug('debug test')
 log.info('info test')

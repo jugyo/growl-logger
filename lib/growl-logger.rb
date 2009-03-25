@@ -4,21 +4,25 @@ require 'logger'
 
 class GrowlLogger < Logger
   def initialize(args = {})
-    super(GrowlLogger::LogDevice.new(args[:name] || 'growl-logger'))
+    super(GrowlLogger::LogDevice.new(
+      args[:name] || 'growl-logger',
+      args[:growlnotify] || false
+    ))
     self.level = args[:level] || Logger::WARN
     self.datetime_format = args[:datetime_format] || '%X'
-    self.formatter = lambda do |severity, time, progname, message|
-      "#{severity}: #{message}"
-    end
+    self.formatter = lambda { |severity, time, progname, message| "#{severity}: #{message}" }
   end
 
   class LogDevice
-    def initialize(name, &block)
+    def initialize(name, growlnotify_mode = true, &block)
       @name = name
-      begin
-        require 'ruby-growl'
-        @growl = Growl.new "localhost", @name, ["log"]
-      rescue LoadError
+      @growlnotify_mode = growlnotify_mode
+      unless @growlnotify_mode
+        begin
+          require 'ruby-growl'
+          @growl = Growl.new "localhost", @name, ["log"]
+        rescue LoadError
+        end
       end
       @formatter = block if block_given?
     end

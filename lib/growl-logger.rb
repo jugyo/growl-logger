@@ -1,4 +1,5 @@
 # -*- coding: utf-8 -*-
+require 'rubygems'
 
 class GrowlLogger
 
@@ -19,7 +20,7 @@ class GrowlLogger
     if @growl
       @growl.notify "log", @name, message, priority
     else
-      system 'growlnotify', @name, '-p', priority, '-m', message
+      system 'growlnotify', @name, '-p', priority.to_s, '-m', message
     end
   end
 
@@ -41,7 +42,7 @@ class GrowlLogger
   end
 
   def get_priority(level)
-    (level - 2).to_s
+    level - 2
   end
 
   def close;end

@@ -8,7 +8,7 @@ class GrowlLogger < Logger
       args[:name] || 'growl-logger',
       args[:growlnotify] || false
     ))
-    self.level = args[:level] || Logger::WARN
+    self.level = args[:level] if args[:level]
     self.datetime_format = args[:datetime_format] || '%X'
     self.formatter = lambda { |severity, time, progname, message| "#{severity}: #{message}" }
   end

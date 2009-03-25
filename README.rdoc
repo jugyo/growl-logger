@@ -14,6 +14,8 @@ That's all.
 
 == SYNOPSIS:
 
+=== Usage
+
   log = GrowlLogger.new :level => Logger::DEBUG
   
   log.debug('debug')
@@ -21,6 +23,14 @@ That's all.
   log.warn('warn')
   log.error('error')
   log.fatal('fatal')
+
+=== Screenshot
+
+<img src="http://github.com/jugyo/growl-logger/raw/f0c2d3eae55b81bebb94ed913f9ad8b201cdaef2/example.png" />
+
+=== How to set colors by severity
+
+<img src="http://github.com/jugyo/growl-logger/raw/52d2c4253d15d43ece1291fbb4fa1b48fd41a61a/how_to_set_colors_by_severity.png" />
 
 == REQUIREMENTS:
 

@@ -38,10 +38,12 @@ http://farm4.static.flickr.com/3639/3383843581_8e97858fd7_o.png
 == REQUIREMENTS:
 
 * growlnotify command
-
 or
-
 * ruby-growl
+
+See also:
+* http://growl.info/documentation/growlnotify.php
+* http://segment7.net/projects/ruby/growl/
 
 == INSTALL:
 

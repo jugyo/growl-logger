@@ -8,15 +8,27 @@ Logger using Growl.
 
 == FEATURES/PROBLEMS:
 
+* You can output logs as growl notification so easily!
+
+That's all.
+
 == SYNOPSIS:
+
+  log = GrowlLogger.new :level => Logger::DEBUG
+  
+  log.debug('debug')
+  log.info('info')
+  log.warn('warn')
+  log.error('error')
+  log.fatal('fatal')
 
 == REQUIREMENTS:
 
-* ruby-growl
+* growlnotify command
 
 or
 
-* growlnotify command
+* ruby-growl
 
 == INSTALL:
 

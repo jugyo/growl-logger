@@ -1,11 +1,8 @@
 # -*- coding: utf-8 -*-
 
-require 'logger'
 require File.dirname(__FILE__) + '/../lib/growl-logger'
 
-log = Logger.new(GrowlLogger.new)
-log.level = Logger::DEBUG
-log.datetime_format = '%X'
+log = GrowlLogger.new :level => Logger::DEBUG
 
 log.debug('debug test')
 log.info('info test')

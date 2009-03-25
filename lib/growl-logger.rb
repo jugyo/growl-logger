@@ -24,8 +24,7 @@ class GrowlLogger < Logger
     end
 
     def write(message)
-      level = get_level(message)
-      priority = get_priority(level)
+      priority = get_priority(message)
       if @growl
         @growl.notify "log", @name, message, priority
       else
@@ -33,25 +32,21 @@ class GrowlLogger < Logger
       end
     end
 
-    def get_level(message)
+    def get_priority(message)
       case message
-      when /^D/
-        Logger::DEBUG
-      when /^I/
-        Logger::INFO
-      when /^W/
-        Logger::WARN
-      when /^E/
-        Logger::ERROR
-      when /^F/
-        Logger::FATAL
+      when /^DEBUG/
+        -2
+      when /^INFO/
+        -1
+      when /^WARN/
+        0
+      when /^ERROR/
+        1
+      when /^FATAL/
+        2
       else
-        Logger::INFO
+        0
       end
-    end
-
-    def get_priority(level)
-      level - 2
     end
 
     def close;end

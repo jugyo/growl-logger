@@ -25,15 +25,11 @@ That's all.
   log.error('error')
   log.fatal('fatal')
 
-== SCREENSHOT:
+== SCREENSHOTS:
 
-=== Example
+{http://farm4.static.flickr.com/3632/3384656890_446c1cd6e2_o.png}[http://www.flickr.com/photos/22883452@N04/3383843581/]
 
-http://farm4.static.flickr.com/3632/3384656890_446c1cd6e2_o.png
-
-=== Growl Display Options
-
-http://farm4.static.flickr.com/3639/3383843581_8e97858fd7_o.png
+{http://farm4.static.flickr.com/3639/3383843581_8e97858fd7_o.png}[http://www.flickr.com/photos/22883452@N04/3384656890/]
 
 == REQUIREMENTS:
 

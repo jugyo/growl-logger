@@ -3,6 +3,8 @@ require 'rubygems'
 require 'logger'
 
 class GrowlLogger < Logger
+  VERSION = '0.1.1'
+
   def initialize(args = {})
     super(GrowlLogger::LogDevice.new(
       args[:name] || 'growl-logger',

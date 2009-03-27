@@ -8,6 +8,7 @@ class GrowlLogger < Logger
   def initialize(args = {})
     super(GrowlLogger::LogDevice.new(
       args[:name] || 'growl-logger',
+      args[:host] || 'localhost',
       args[:growlnotify] || false
     ))
     self.level = args[:level] if args[:level]
@@ -16,13 +17,13 @@ class GrowlLogger < Logger
   end
 
   class LogDevice
-    def initialize(name, growlnotify_mode = true, &block)
+    def initialize(name, host, growlnotify_mode = true, &block)
       @name = name
       @growlnotify_mode = growlnotify_mode
       unless @growlnotify_mode
         begin
           require 'ruby-growl'
-          @growl = Growl.new "localhost", @name, ["log"]
+          @growl = Growl.new host, @name, ["log"]
         rescue LoadError
         end
       end

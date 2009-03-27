@@ -48,7 +48,7 @@ describe GrowlLogger do
   end
 
   it 'get_priority' do
-    logdev = GrowlLogger::LogDevice.new('foo')
+    logdev = GrowlLogger::LogDevice.new('foo', 'localhost')
     logdev.get_priority('DEBUG: test').should == -2
     logdev.get_priority('INFO: test').should  == -1
     logdev.get_priority('WARN: test').should  ==  0

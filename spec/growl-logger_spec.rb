@@ -51,6 +51,18 @@ describe GrowlLogger do
     logdev.write('test')
   end
 
+  it 'not specify editor' do
+    logger = GrowlLogger.new
+    logdev = logger.instance_eval{@logdev}.dev
+    logdev.instance_eval{@editor}.should == 'mate -l'
+  end
+
+  it 'specify editor' do
+    logger = GrowlLogger.new :editor => 'foo'
+    logdev = logger.instance_eval{@logdev}.dev
+    logdev.instance_eval{@editor}.should == 'foo'
+  end
+
   it 'init with datetime_format option' do
     logger = GrowlLogger.new :datetime_format => '%H'
     logger.datetime_format.should == '%H'

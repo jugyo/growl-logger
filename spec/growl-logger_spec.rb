@@ -12,7 +12,7 @@ describe GrowlLogger do
     logdev.instance_eval{@name}.should == 'growl-logger'
     logger.datetime_format.should == '%X'
     logger.formatter.call('DEBUG', Time.now, 'foo', 'message').should == "DEBUG: message"
-    logdev.instance_eval{@growlnotify_mode}.should == false
+    logdev.instance_eval{@mode}.should == nil
   end
 
   it 'init with name option' do
@@ -21,10 +21,34 @@ describe GrowlLogger do
     logdev.instance_eval{@name}.should == 'foo'
   end
 
-  it 'init with growlnotify option' do
-    logger = GrowlLogger.new :growlnotify => true
+  it 'init as growlnotify mode' do
+    logger = GrowlLogger.new :mode => :growlnotify
     logdev = logger.instance_eval{@logdev}.dev
-    logdev.instance_eval{@growlnotify_mode}.should == true
+    logdev.instance_eval{@mode}.should == :growlnotify
+    logdev.should_receive(:notify_by_growlnotify)
+    logdev.should_not_receive(:notify_by_meow)
+    logdev.should_not_receive(:notify_by_rubygrowl)
+    logdev.write('test')
+  end
+
+  it 'init as meow mode' do
+    logger = GrowlLogger.new :mode => :meow
+    logdev = logger.instance_eval{@logdev}.dev
+    logdev.instance_eval{@mode}.should == :meow
+    logdev.should_receive(:notify_by_meow)
+    logdev.should_not_receive(:notify_by_growlnotify)
+    logdev.should_not_receive(:notify_by_rubygrowl)
+    logdev.write('test')
+  end
+
+  it 'init as ruby-growl mode' do
+    logger = GrowlLogger.new :mode => 'ruby-growl'
+    logdev = logger.instance_eval{@logdev}.dev
+    logdev.instance_eval{@mode}.should == :'ruby-growl'
+    logdev.should_receive(:notify_by_rubygrowl)
+    logdev.should_not_receive(:notify_by_growlnotify)
+    logdev.should_not_receive(:notify_by_meow)
+    logdev.write('test')
   end
 
   it 'init with datetime_format option' do

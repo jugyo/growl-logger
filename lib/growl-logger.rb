@@ -9,7 +9,8 @@ class GrowlLogger < Logger
     super(GrowlLogger::LogDevice.new(
       args[:name] || 'growl-logger',
       args[:host] || 'localhost',
-      args[:growlnotify] || false
+      :mode => args[:mode],
+      :editor => args[:editor]
     ))
     self.level = args[:level] if args[:level]
     self.datetime_format = args[:datetime_format] || '%X'
@@ -17,14 +18,22 @@ class GrowlLogger < Logger
   end
 
   class LogDevice
-    def initialize(name, host, growlnotify_mode = true, &block)
+    def initialize(name, host, options = {}, &block)
       @name = name
-      @growlnotify_mode = growlnotify_mode
-      unless @growlnotify_mode
+      @mode = options[:mode] ? options[:mode].to_sym : nil
+      @editor = options[:editor] || 'mate -l'
+      unless @mode.to_s == 'growlnotify'
         begin
-          require 'ruby-growl'
-          @growl = Growl.new host, @name, ["log"]
+          require 'meow'
+          @meow = Meow.new('log')
         rescue LoadError
+        end
+        unless @meow
+          begin
+            require 'ruby-growl'
+            @growl = Growl.new host, @name, ["log"]
+          rescue LoadError
+          end
         end
       end
       @formatter = block if block_given?
@@ -32,11 +41,36 @@ class GrowlLogger < Logger
 
     def write(message)
       priority = get_priority(message)
-      if @growl
-        @growl.notify "log", @name, message, priority
+      case @mode
+      when :meow
+        notify_by_meow(message, priority)
+      when :'ruby-growl'
+        notify_by_rubygrowl(message, priority)
+      when :growlnotify
+        notify_by_growlnotify(message, priority)
       else
-        system 'growlnotify', @name, '-p', priority.to_s, '-m', message
+        if @meow then notify_by_meow(message, priority)
+        elsif @growl then notify_by_rubygrowl(message, priority)
+        else notify_by_growlnotify(message, priority)
+        end
       end
+    end
+
+    def notify_by_meow(message, priority)
+      call_point = caller.last
+      line_number = call_point[/\d+$/]
+      file_name = call_point.sub(/:\d+$/, '')
+      @meow.notify @name, message, :priority => priority do
+        system *(@editor.split(/\s/) + [line_number, File.expand_path(file_name)])
+      end
+    end
+
+    def notify_by_rubygrowl(message, priority)
+      @growl.notify "log", @name, message, priority
+    end
+
+    def notify_by_growlnotify(message, priority)
+      system 'growlnotify', @name, '-p', priority.to_s, '-m', message
     end
 
     def get_priority(message)

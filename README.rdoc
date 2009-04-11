@@ -10,8 +10,6 @@ Logger using Growl.
 
 * You can output logs as growl notification so easily!
 
-That's all.
-
 == SYNOPSIS:
 
   require 'rubygems'

@@ -1,6 +1,6 @@
 Gem::Specification.new do |s|
   s.name = 'growl-logger'
-  s.version = '0.1.3'
+  s.version = '0.2.0'
   s.summary = "Logger using Growl."
   s.description = "Logger using Growl. You can output logs as growl notification so easily!"
   s.files = %w( lib/growl-logger.rb

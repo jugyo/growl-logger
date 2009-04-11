@@ -54,8 +54,9 @@ or
 
 === See also
 
-* http://growl.info/documentation/growlnotify.php
+* http://meow.rubyforge.org/meow/
 * http://segment7.net/projects/ruby/growl/
+* http://growl.info/documentation/growlnotify.php
 
 == LICENSE:
 
